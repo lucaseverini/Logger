@@ -37,14 +37,18 @@ NSApplication *app;
 
     // Set default preferences
     // Reset the preferences with: defaults delete com.lucaseverini.logger
-    NSUserDefaults *defaultSettings = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    
     NSURL *defaultPrefsFile = [[NSBundle mainBundle] URLForResource:@"DefaultPrefs" withExtension:@"plist"];
     NSDictionary *defaultPrefs = [NSDictionary dictionaryWithContentsOfURL:defaultPrefsFile];
-    [defaultSettings registerDefaults:defaultPrefs];
+    [settings registerDefaults:defaultPrefs];
 
 	[[NSUserNotificationCenter defaultUserNotificationCenter] setDelegate:self];
 
-    [self start];
+    if ([settings boolForKey:@"StartAtLaunch"])
+    {
+        [self start];
+    }
 }
 
 - (void) applicationWillBecomeActive:(NSNotification *)notification

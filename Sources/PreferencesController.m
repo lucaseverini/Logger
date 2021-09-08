@@ -24,6 +24,10 @@
     [super windowDidLoad];
 
     [self.window makeKeyAndOrderFront:self];
+
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
+    [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
 }
 
 - (void) windowDidBecomeMain:(NSNotification *)notification
@@ -33,6 +37,17 @@
     LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
     BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
     [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
+}
+
+- (IBAction) setUnsetAutoStart:(id)sender
+{
+    printf("setUnsetAutoStart...\n");
+
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
+    isAutoStart ^= 1;
+    [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
+    [settings setBool:isAutoStart forKey:@"StartAtLaunch"];
 }
 
 - (IBAction) setUnsetLoginItem:(id)sender

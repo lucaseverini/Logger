@@ -9,6 +9,7 @@
 
 @property (nonatomic, strong) IBOutlet NSButton *button;
 @property (nonatomic, strong) IBOutlet NSButton *loginItemButton;
+@property (nonatomic, strong) IBOutlet NSButton *autoStartButton;
 
 - (IBAction) setUnsetLoginItem:(id)sender;
 

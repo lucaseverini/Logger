@@ -8,5 +8,9 @@
 	<array/>
 	<key>CheckSubfolders</key>
 	<false/>
+	<key>CheckInvisibleFiles</key>
+	<false/>
+	<key>StartAtLaunch</key>
+	<false/>
 </dict>
 </plist>

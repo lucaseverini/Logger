@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesController" customModule="Logger">
             <connections>
+                <outlet property="autoStartButton" destination="uYU-7P-B1h" id="LnD-Kx-T62"/>
                 <outlet property="loginItemButton" destination="LV6-GW-j3e" id="aC9-Hf-JHm"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -32,14 +33,25 @@
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LV6-GW-j3e">
-                        <rect key="frame" x="25" y="193" width="211" height="18"/>
+                        <rect key="frame" x="25" y="193" width="225" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Start Logger on system startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="KWZ-MP-mXj">
+                        <buttonCell key="cell" type="check" title="Launch Logger on system startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="KWZ-MP-mXj">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="setUnsetLoginItem:" target="-2" id="ucu-mH-FQF"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYU-7P-B1h">
+                        <rect key="frame" x="25" y="167" width="157" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Start Logger at launch" bezelStyle="regularSquare" imagePosition="left" inset="2" id="T9W-m8-z98">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setUnsetAutoStart:" target="-2" id="k8z-us-d5e"/>
                         </connections>
                     </button>
                 </subviews>
