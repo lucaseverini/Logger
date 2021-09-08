@@ -7,10 +7,20 @@
 
 @interface PreferencesController : NSWindowController<NSWindowDelegate>
 
-@property (nonatomic, strong) IBOutlet NSButton *button;
-@property (nonatomic, strong) IBOutlet NSButton *loginItemButton;
-@property (nonatomic, strong) IBOutlet NSButton *autoStartButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *selectLogButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *loginItemButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *autoStartButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *dontCheckSubfoldersButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *addFolderButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *removeFolderButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTableView *tableView;
+@property (nonatomic, unsafe_unretained) IBOutlet NSScrollView *scrollView;
 
 - (IBAction) setUnsetLoginItem:(id)sender;
+- (IBAction) setUnsetAutoStart:(id)sender;
+- (IBAction) selectLog:(id)sender;
+- (IBAction) setUnsetDontCheckSubfolders:(id)sender;
+- (IBAction) addFolder:(id)sender;
+- (IBAction) removeFolder:(id)sender;
 
 @end

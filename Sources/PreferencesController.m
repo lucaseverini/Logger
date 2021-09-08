@@ -19,17 +19,6 @@
     return self;
 }
 
-- (void) windowDidLoad
-{
-    [super windowDidLoad];
-
-    [self.window makeKeyAndOrderFront:self];
-
-    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-    BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
-    [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
-}
-
 - (void) windowDidBecomeMain:(NSNotification *)notification
 {
     printf("windowDidBecomeMain...\n");
@@ -37,41 +26,11 @@
     LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
     BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
     [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
-}
 
-- (IBAction) setUnsetAutoStart:(id)sender
-{
-    printf("setUnsetAutoStart...\n");
 
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
-    isAutoStart ^= 1;
     [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
-    [settings setBool:isAutoStart forKey:@"StartAtLaunch"];
-}
-
-- (IBAction) setUnsetLoginItem:(id)sender
-{
-    printf("setUnsetLoginItem...\n");
-
-    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    if (loginItem != 0)
-    {
-        if ([[sender selectedCell] state] == YES)
-        {
-            CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-            [self addLoginItem:loginItem forUrl:url];
-
-            BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
-            [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
-        }
-        else
-        {
-            [self removeLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
-        }
-
-        CFRelease(loginItem);
-    }
 }
 
 - (void) addLoginItem:(LSSharedFileListRef)loginItemRef forUrl:(CFURLRef)url
@@ -138,6 +97,61 @@
     }
 
     return NO;
+}
+
+- (IBAction) setUnsetLoginItem:(id)sender
+{
+    printf("setUnsetLoginItem...\n");
+
+    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItem != 0)
+    {
+        if ([[sender selectedCell] state] == YES)
+        {
+            CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+            [self addLoginItem:loginItem forUrl:url];
+
+            BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
+            [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
+        }
+        else
+        {
+            [self removeLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
+        }
+
+        CFRelease(loginItem);
+    }
+}
+
+- (IBAction) setUnsetAutoStart:(id)sender
+{
+    printf("setUnsetAutoStart...\n");
+
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
+    isAutoStart ^= 1;
+    [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
+    [settings setBool:isAutoStart forKey:@"StartAtLaunch"];
+}
+
+- (IBAction) selectLog:(id)sender
+{
+    printf("selectLog...\n");
+}
+
+- (IBAction) setUnsetDontCheckSubfolders:(id)sender
+{
+    printf("setUnsetDontCheckSubfolders...\n");
+}
+
+- (IBAction) addFolder:(id)sender
+{
+    printf("addFolder...\n");
+}
+
+- (IBAction) removeFolder:(id)sender
+{
+    printf("removeFolder...\n");
 }
 
 @end
