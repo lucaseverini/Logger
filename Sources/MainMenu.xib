@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="494" id="495"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="494" customClass="ApplicationDelegate">
+            <connections>
+                <outlet property="statusMenu" destination="t8t-jv-UOe" id="S4H-kl-2E3"/>
+            </connections>
+        </customObject>
+        <menu title="Logger" autoenablesItems="NO" id="t8t-jv-UOe">
+            <items>
+                <menuItem title="Start Logger" id="8kW-eY-17U">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="startLoggerAction:" target="494" id="fdN-XG-YKf"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Stop Logger" id="fdq-1R-JvL">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="stopLoggerAction:" target="494" id="cRN-jH-OWM"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="r0f-ST-th7"/>
+                <menuItem title="Open Log" id="q2Z-aY-bFD">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openLogAction:" target="494" id="0Id-gU-POA"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="LFa-LG-vmf"/>
+                <menuItem title="Preferences…" id="JNC-g7-Uo4">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="preferencesAction:" target="494" id="IsD-cW-tCL"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="gg2-qx-mVX"/>
+                <menuItem title="Quit Logger" id="RWS-0X-XGq">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="quitLoggerAction:" target="494" id="IWP-8P-5QT"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="64.5" y="182"/>
+        </menu>
+    </objects>
+</document>
