@@ -137,11 +137,19 @@
 - (IBAction) selectLog:(id)sender
 {
     printf("selectLog...\n");
+
+    
 }
 
 - (IBAction) setUnsetDontCheckSubfolders:(id)sender
 {
     printf("setUnsetDontCheckSubfolders...\n");
+
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    BOOL dontCheckSubfolders = [settings boolForKey:@"DontCheckSubfolders"];
+    dontCheckSubfolders ^= 1;
+    [self.dontCheckSubfoldersButton setState:dontCheckSubfolders ? NSControlStateValueOn : NSControlStateValueOff];
+    [settings setBool:dontCheckSubfolders forKey:@"DontCheckSubfolders"];
 }
 
 - (IBAction) addFolder:(id)sender

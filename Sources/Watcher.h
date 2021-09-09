@@ -13,8 +13,12 @@ typedef struct watcherSettings
 	CFTimeInterval			latency;
 	NSArray<NSString*>		*folders;
     NSDateFormatter         *dateFormatter;
+    int                     logFd;
+    BOOL                    dontCheckSubFolders;
 }
 watcherSettings;
 
-int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, NSString *latency);
-void disposeWatcher (void);
+int initWatcher(NSArray<NSString*> *folders, NSString *sinceWhen, NSString *latency, NSString *logPath, BOOL dontCheckSubFolders);
+void disposeWatcher(void);
+void writeMessageToLog(const char *message, bool asynchronous = true);
+void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, const char* eventTime);
