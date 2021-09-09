@@ -90,14 +90,8 @@ NSApplication *app;
     }
 
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+
     NSArray<NSString*> *folders = [settings stringArrayForKey:@"Folders"];
-
-    // For testing
-    NSString *folder1 = @"/Volumes/Data/Desktop/MalwareBytes/Test/Folder-1";
-    NSString *folder2 = @"/Volumes/Data/Desktop/MalwareBytes/Test/Folder-2";
-    NSString *folder3 = @"/Volumes/Data/Desktop";
-    folders = @[folder1, folder2];
-
     if ([folders count] == 0)
     {
         showAlert(@"No folders to watch.");

@@ -13,6 +13,7 @@
 #include <vector>
 #include "Watcher.h"
 #include "Utilities.h"
+#include "FindFileInformations.h"
 
 // Local globals
 static FSEventStreamRef stream_ref;
@@ -94,8 +95,7 @@ static void fsevents_callback (FSEventStreamRef streamRef, void *clientCallBackI
                 continue;
             }
         }
-
-
+#if 0
 		if (eventFlags[idx] & kFSEventStreamEventFlagMustScanSubDirs)
 		{
 			if (eventFlags[idx] & kFSEventStreamEventFlagUserDropped)
@@ -159,7 +159,7 @@ static void fsevents_callback (FSEventStreamRef streamRef, void *clientCallBackI
         {
             printf("## File %s in %s owner changed\n", [name UTF8String], [path UTF8String]);
         }
-
+#endif
         reportFSEvent(eventFlags[idx], eventPaths[idx], curTimeStr);
     }
 }
@@ -184,11 +184,18 @@ void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, co
         buffer[0] = '\0';
         tmpStr[0] = '\0';
 
-        sprintf(tmpStr, "\n%s\n%s\n", eventTimeCopy, eventPathCopy);
+        sprintf(tmpStr, "\nTime: %s\nFile: %s\n", eventTimeCopy, eventPathCopy);
         strcat(buffer, tmpStr);
 
-        free((void*)eventPathCopy);
-        free((void*)eventTimeCopy);
+        int pid = -1;
+        int uid = -1;
+        int result = findFileInformations(eventPathCopy, &pid, &uid);
+        printf("pid: %d uid: %d\n", pid, uid);
+        if (result > 0)
+        {
+            sprintf(tmpStr, "Pid: %d\nUser: %d\n", pid, uid);
+            strcat(buffer, tmpStr);
+        }
 
         if (eventFlags & kFSEventStreamEventFlagMustScanSubDirs)
         {
@@ -214,7 +221,7 @@ void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, co
 
         if (eventFlags & kFSEventStreamEventFlagItemRenamed)
         {
-            if (access(eventPath, F_OK) != -1)
+            if (access(eventPathCopy, F_OK) != -1)
             {
                 strcat(buffer, "File renamed/moved into\n");
             }
@@ -253,6 +260,9 @@ void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, co
         {
             strcat(buffer, "Finder owner changed\n");
         }
+
+        free((void*)eventPathCopy);
+        free((void*)eventTimeCopy);
 
         writeMessageToLog(buffer, true);
     });

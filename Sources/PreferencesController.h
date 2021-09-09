@@ -5,7 +5,7 @@
 //  Created by Luca Severini on 7-Sep-2021.
 //
 
-@interface PreferencesController : NSWindowController<NSWindowDelegate>
+@interface PreferencesController : NSWindowController<NSWindowDelegate, NSTableViewDataSource, NSTableViewDelegate>
 
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *selectLogButton;
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *loginItemButton;
@@ -17,6 +17,9 @@
 @property (nonatomic, unsafe_unretained) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *latency;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *logFile;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *folder;
+
+@property (nonatomic, strong) NSMutableArray<NSString*> *folders;
 
 - (IBAction) setUnsetLoginItem:(id)sender;
 - (IBAction) setUnsetAutoStart:(id)sender;
@@ -26,6 +29,7 @@
 - (IBAction) removeFolder:(id)sender;
 - (IBAction) confirm:(id)sender;
 - (IBAction) cancel:(id)sender;
+- (IBAction) tableViewClicked:(id)sender;
 
 - (BOOL) checkPreferences;
 

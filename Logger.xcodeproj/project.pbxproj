@@ -24,6 +24,7 @@
 		81F3076D1A6DD7B9008A98FD /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F3076A1A6DD7B9008A98FD /* PreferencesController.m */; };
 		81F3076F1A6DD7B9008A98FD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81F3076B1A6DD7B9008A98FD /* PreferencesController.xib */; };
 		D30D8D1526A6E07C005074F3 /* DefaultPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = D30D8D1226A6E028005074F3 /* DefaultPrefs.plist */; };
+		D36CD31B26EA5E1E0029A47B /* FindFileInformations.mm in Sources */ = {isa = PBXBuildFile; fileRef = D36CD31A26EA5E1E0029A47B /* FindFileInformations.mm */; };
 		D3BA1F8F26AB2D85009C9132 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3BA1F8E26AB2D85009C9132 /* Images.xcassets */; };
 		D3BA1F9426AB2E18009C9132 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3BA1F9326AB2E18009C9132 /* MainMenu.xib */; };
 		DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
@@ -56,6 +57,8 @@
 		81F3076B1A6DD7B9008A98FD /* PreferencesController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PreferencesController.xib; path = Sources/PreferencesController.xib; sourceTree = "<group>"; };
 		D30D8D1226A6E028005074F3 /* DefaultPrefs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = DefaultPrefs.plist; sourceTree = "<group>"; };
 		D30D8D3A26A8AA88005074F3 /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
+		D36CD31A26EA5E1E0029A47B /* FindFileInformations.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FindFileInformations.mm; sourceTree = "<group>"; };
+		D36CD31E26EA5F160029A47B /* FindFileInformations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindFileInformations.h; sourceTree = "<group>"; };
 		D3A9AC5826AECAE500C93638 /* Logger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Logger.entitlements; sourceTree = "<group>"; };
 		D3BA1F8E26AB2D85009C9132 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Images/Images.xcassets; sourceTree = "<group>"; };
 		D3BA1F9326AB2E18009C9132 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Sources/MainMenu.xib; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 			children = (
 				81302DAF1A427D3C00B81758 /* Watcher.h */,
 				81302DAC1A42742F00B81758 /* Watcher.m */,
+				D36CD31E26EA5F160029A47B /* FindFileInformations.h */,
+				D36CD31A26EA5E1E0029A47B /* FindFileInformations.mm */,
 			);
 			name = "FS Watcher";
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 				DD4F7C1513C30F9F00825C6E /* main.m in Sources */,
 				DD4F7C1C13C30F9F00825C6E /* ApplicationDelegate.m in Sources */,
 				81B8D9091A43693200E7C8F7 /* Utilities.mm in Sources */,
+				D36CD31B26EA5E1E0029A47B /* FindFileInformations.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
