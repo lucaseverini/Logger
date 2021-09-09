@@ -164,7 +164,6 @@
     }
     [savePanel setNameFieldStringValue:defaultFilename];
 
-    // Display the dialog box. If OK is pressed, process the files.
     if ([savePanel runModal] == NSModalResponseOK)
     {
         NSURL *logFile = [savePanel URL];
