@@ -15,6 +15,8 @@
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *removeFolderButton;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *tableView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSScrollView *scrollView;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *latency;
+@property (nonatomic, unsafe_unretained) IBOutlet NSTextField *logFile;
 
 - (IBAction) setUnsetLoginItem:(id)sender;
 - (IBAction) setUnsetAutoStart:(id)sender;
@@ -22,5 +24,9 @@
 - (IBAction) setUnsetDontCheckSubfolders:(id)sender;
 - (IBAction) addFolder:(id)sender;
 - (IBAction) removeFolder:(id)sender;
+- (IBAction) confirm:(id)sender;
+- (IBAction) cancel:(id)sender;
+
+- (BOOL) checkPreferences;
 
 @end

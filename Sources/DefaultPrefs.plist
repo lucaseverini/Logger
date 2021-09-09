@@ -6,6 +6,8 @@
 	<array/>
 	<key>LogPath</key>
 	<string></string>
+	<key>Latency</key>
+	<real>0.5</real>
 	<key>DontCheckSubfolders</key>
 	<false/>
 	<key>CheckInvisibleFiles</key>

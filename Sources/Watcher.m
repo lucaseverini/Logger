@@ -364,7 +364,7 @@ void disposeWatcher (void)
 // sinceWhen <when> specify a time from whence to search for applicable events
 // latency <seconds> specify latency
 // --------------------------------------------------------------------------------
-int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, NSString *latency, NSString *logPath, BOOL dontCheckSubFolders)
+int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterval latency, NSString *logPath, BOOL dontCheckSubFolders)
 {
 	if ([folders count] == 0)
 	{
@@ -411,11 +411,7 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, NSString *lat
         settings.since_when = strtoull([sinceWhen UTF8String], NULL, 0);
     }
 
-    settings.latency = DEFAULT_LANTENCY;
-    if ([latency length] != 0)
-    {
-        settings.latency = strtod([latency UTF8String], NULL);
-    }
+    settings.latency = latency;
 
     if (createWatcher(&settings) != 0)
     {

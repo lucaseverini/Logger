@@ -5,7 +5,7 @@
 // Created by Luca Severini on 7-Sep-2021.
 //
 
-#define DEFAULT_LANTENCY 1.0 // 1 second latency when collecting FSEvents
+#define DEFAULT_LATENCY 1.0 // 1 second latency when collecting FSEvents
 
 typedef struct watcherSettings
 {
@@ -18,7 +18,7 @@ typedef struct watcherSettings
 }
 watcherSettings;
 
-int initWatcher(NSArray<NSString*> *folders, NSString *sinceWhen, NSString *latency, NSString *logPath, BOOL dontCheckSubFolders);
+int initWatcher(NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterval latency, NSString *logPath, BOOL dontCheckSubFolders);
 void disposeWatcher(void);
 void writeMessageToLog(const char *message, bool asynchronous = true);
 void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, const char* eventTime);

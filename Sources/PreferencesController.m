@@ -27,10 +27,23 @@
     BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
     [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
 
-
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
     [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
+
+    CFTimeInterval latencyValue = [[settings objectForKey:@"Latency"] doubleValue];
+    self.latency.doubleValue = latencyValue;
+
+    NSString *logPath = [settings stringForKey:@"LogPath"];
+    if ([logPath length] != 0)
+    {
+        self.logFile.stringValue = logPath;
+    }
+}
+
+- (BOOL) windowShouldClose:(NSWindow*)sender
+{
+    return [self checkPreferences];
 }
 
 - (void) addLoginItem:(LSSharedFileListRef)loginItemRef forUrl:(CFURLRef)url
@@ -136,15 +149,32 @@
 
 - (IBAction) selectLog:(id)sender
 {
-    printf("selectLog...\n");
+    NSSavePanel *savePanel = [NSSavePanel savePanel];
+    [savePanel setAllowedFileTypes:@[@"txt", @"log"]];
 
-    
+    NSString *logPath = self.logFile.stringValue;
+    NSString *defaultFilename = [logPath lastPathComponent];
+    if ([defaultFilename length] == 0)
+    {
+        defaultFilename = @"Logger_Log.txt";
+    }
+    else
+    {
+        [savePanel setDirectoryURL:[NSURL fileURLWithPath:[logPath stringByDeletingLastPathComponent]]];
+    }
+    [savePanel setNameFieldStringValue:defaultFilename];
+
+    // Display the dialog box. If OK is pressed, process the files.
+    if ([savePanel runModal] == NSModalResponseOK)
+    {
+        NSURL *logFile = [savePanel URL];
+        self.logFile.stringValue = [logFile path];
+        printf("Log: %s\n", [self.logFile.stringValue UTF8String]);
+    }
 }
 
 - (IBAction) setUnsetDontCheckSubfolders:(id)sender
 {
-    printf("setUnsetDontCheckSubfolders...\n");
-
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
     BOOL dontCheckSubfolders = [settings boolForKey:@"DontCheckSubfolders"];
     dontCheckSubfolders ^= 1;
@@ -160,6 +190,38 @@
 - (IBAction) removeFolder:(id)sender
 {
     printf("removeFolder...\n");
+}
+
+- (IBAction) confirm:(id)sender
+{
+    if ([self checkPreferences ])
+    {
+        NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+        [settings setDouble:self.latency.doubleValue forKey:@"Latency"];
+        [settings setBool:self.dontCheckSubfoldersButton.state forKey:@"DontCheckSubfolders"];
+        [settings setBool:self.autoStartButton.state forKey:@"StartAtLaunch"];
+        [settings setObject:self.logFile.stringValue forKey:@"LogPath"];
+
+        [self.window orderOut:nil];
+    }
+}
+
+- (IBAction) cancel:(id)sender;
+{
+    [self.window orderOut:nil];
+}
+
+- (BOOL) checkPreferences
+{
+    if (self.latency.doubleValue < 0.1 || self.latency.doubleValue > 5.0)
+    {
+        [self.latency selectText:self];
+
+        NSBeep();
+        return NO;
+    }
+
+    return YES;
 }
 
 @end

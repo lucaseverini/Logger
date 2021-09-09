@@ -105,10 +105,6 @@ NSApplication *app;
     }
 
     NSString *logPath = [settings stringForKey:@"LogPath"];
-
-    // For testing
-    logPath = @"/Volumes/Data/Desktop/logger_log.txt";
-
     if ([logPath length] == 0)
     {
         showAlert(@"Log path not defined.");
@@ -118,7 +114,7 @@ NSApplication *app;
     printf("Logger starting...\n");
 
     BOOL checkSubfolders = [settings boolForKey:@"DontCheckSubfolders"];
-    NSString *latency = @"0.5";
+    CFTimeInterval latency = [[settings objectForKey:@"Latency"] doubleValue];
     if (initWatcher(folders, nil, latency, logPath, checkSubfolders) != 0)
     {
         printf("initWatcher initialization failed.\n");
@@ -181,32 +177,37 @@ NSApplication *app;
 
 - (IBAction) startLoggerAction:(id)sender
 {
-    printf("Start Logger\n");
     [self start];
 }
 
 - (IBAction) stopLoggerAction:(id)sender
 {
-    printf("Stop Logger\n");
     [self stop];
 }
 
 - (IBAction) quitLoggerAction:(id)sender
 {
-    printf("Quit Logger\n");
-
     [[NSApplication sharedApplication] terminate:self];
 }
 
 - (IBAction) openLogAction:(id)sender
 {
-    printf("Open Log\n");
+    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
+    NSString *logPath = [settings stringForKey:@"LogPath"];
+    if (access([logPath UTF8String], F_OK) != -1)
+    {
+        char command[PATH_MAX];
+        sprintf(command, "open -t \"%s\"", [logPath UTF8String]);
+        system(command);
+    }
+    else
+    {
+        showAlert(@"Log file not found.");
+    }
 }
 
 - (IBAction) preferencesAction:(id)sender
 {
-    printf("Preferences\n");
-
     [NSApp activateIgnoringOtherApps:YES];
 
     if(self.prefsPanel.window == nil)
