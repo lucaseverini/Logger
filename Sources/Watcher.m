@@ -398,7 +398,8 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
         }
         else
         {
-            printf("Invalid folder path: %s\n", [folder UTF8String]);
+            NSString *msg = [NSString stringWithFormat:@"Invalid folder:\n%@.", folder];
+            showAlert(msg, NSAlertStyleCritical, @[@"Cancel"]);
             return 1;
         }
     }
@@ -410,7 +411,8 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
     int logFd = open([logPath UTF8String], access, mode);
     if (logFd == -1)
     {
-        printf("Invalid log path: %s error: %s\n", [logPath UTF8String], strerror(errno));
+        NSString *msg = [NSString stringWithFormat:@"Invalid log:\n%@.", logPath];
+        showAlert(msg, NSAlertStyleCritical, @[@"Cancel"]);
         return 1;
     }
     settings.logFd = logFd;

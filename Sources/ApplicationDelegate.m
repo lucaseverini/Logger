@@ -109,14 +109,15 @@ NSApplication *app;
 
     BOOL checkSubfolders = [settings boolForKey:@"DontCheckSubfolders"];
     CFTimeInterval latency = [[settings objectForKey:@"Latency"] doubleValue];
-    if (initWatcher(folders, nil, latency, logPath, checkSubfolders) != 0)
+    if (initWatcher(folders, nil, latency, logPath, checkSubfolders) == 0)
+    {
+        printf("### Logger started\n");
+        self.loggerStarted = YES;
+    }
+    else
     {
         printf("initWatcher initialization failed.\n");
     }
-
-    printf("### Logger started\n");
-
-    self.loggerStarted = YES;
 }
 
 - (void) stop
