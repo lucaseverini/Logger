@@ -6,6 +6,7 @@
 //
 
 #import "PreferencesController.h"
+#import "ApplicationDelegate.h"
 #import "Utilities.h"
 
 @implementation PreferencesController
@@ -241,6 +242,10 @@
 - (IBAction) cancel:(id)sender;
 {
     [self.window orderOut:nil];
+
+    [[appDelegate.statusItem.menu itemAtIndex:0] setEnabled:YES];
+    [[appDelegate.statusItem.menu itemAtIndex:5] setEnabled:YES];
+    [[appDelegate.statusItem.menu itemAtIndex:7] setEnabled:YES];
 }
 
 - (IBAction) confirm:(id)sender
@@ -277,6 +282,10 @@
         }
 
         [self.window orderOut:nil];
+
+        [[appDelegate.statusItem.menu itemAtIndex:0] setEnabled:YES];
+        [[appDelegate.statusItem.menu itemAtIndex:5] setEnabled:YES];
+        [[appDelegate.statusItem.menu itemAtIndex:7] setEnabled:YES];
     }
 }
 
@@ -307,7 +316,6 @@
 
 - (NSInteger) numberOfRowsInTableView:(NSTableView*)tableView
 {
-    printf("numberOfRowsInTableView: %d\n", (int)[self.folders count]);
     return [self.folders count];
 }
 

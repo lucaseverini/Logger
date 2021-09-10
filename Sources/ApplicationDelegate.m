@@ -200,6 +200,10 @@ NSApplication *app;
         self.prefsPanel = [[PreferencesController alloc] init];
     }
 
+    [[appDelegate.statusItem.menu itemAtIndex:0] setEnabled:NO];
+    [[appDelegate.statusItem.menu itemAtIndex:5] setEnabled:NO];
+    [[appDelegate.statusItem.menu itemAtIndex:7] setEnabled:NO];
+
     [self.prefsPanel.window makeKeyAndOrderFront:self];
 }
 
