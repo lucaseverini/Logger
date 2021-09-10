@@ -2,7 +2,9 @@ Logger for macOS.
 
 The app is implemented as a status bar (the icon is the first one I found around).
 The menu has few commands to start, stop, configure and quit the app.
-It has been quickly tested to run in Mojave up to Big Sur. 
+It has been quickly tested to run in Mojave up to Big Sur.
+The project has been develope and built with Xcode 12.5 but it should build fine also with Xcode 11.
+The sandbox is disabled because the libproc can't be used in a sandboxed app.
 
 From the preferences the app can be set to start at login as a login item (like the DropBox app or other status bar applications).
 The core of the audit is in Watcher.cpp.
