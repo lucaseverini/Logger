@@ -1,0 +1,62 @@
+Logger for macOS.
+
+The app is implemeted as a status bar (the icon is the first one I found around).
+The menu has few commands to start, stop, configure and quit the app.
+From the preferences the app can be set to start at login as a login item (like the DropBox app or other status bar applications).
+
+POSSIBLE IMPROVEMENTS AND OTHER NOTES:
+
+(1)
+Cleanup the source code and more testing.
+There are some printf that are not strictly necessary and may be removed or put between ifdefs.
+I used the printf because I find NSLog too verbose in its default form other than requiring ObjC strings.
+The code style is my usual one.
+I usually keep the original coding standard when I'm going to edit a source file that I didn't just created from scratch.
+Unfortunately there wasn't the time to do more on this aspect.
+I didn't add much comments at the top of files and function definitions also because I was in an hurry to complete the program for Friday morning (Sep-10-2021).
+The GUI is pretty simple as didn't have the time and I'm not a GUI designer (but if someone design it for me I can implement pretty complex GUI).
+
+(2)
+Search for PID and USER using the libproc functions is expensive and moreover is not always able to get the informations, first of all because it uses the file descriptors and  is executed after the file may have been already closed.
+
+The solutions can be:
+A - Use Apple Endpoint Security (https://developer.apple.com/documentation/endpointsecurity) that is pretty new stuff and it may work better. It is available since 10.15 Catalina so is not the solution to be compatible with 10.14 Mojave and older macOS.
+B - Implement the search in a continuous asynchronous way so there is a chance to catch the file descriptor of the file that is going to be reported before is too late.
+It may work but could be quite expensive.
+
+(3)
+Adjust the configuration when the path to a watched folder changes.
+This is something that I didn't have the time to implement.
+When an event kFSEventStreamEventFlagRootChanged is received the new path of the folder must be recovered and the event ID saved.
+With the new path and the event ID the watcher proces is reinitialized to colelct the events lost by using the saved event ID.
+
+(4)
+Avoid to use deprecated functions (CoreServices/SharedFileList) to add the logger in the login items list.
+Those functions are still ok with 11.0 Big Sur.
+The more correct way seems to be Apple Service Management but is not something quick to do. 
+https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLoginItems.html
+https://developer.apple.com/documentation/servicemanagement
+
+(5)
+Probably the logger can be started earlier by adding it to the the Launch Agent/Daemons.
+This is related to (3).
+
+(6)
+More flags to customize the audit.
+A - Audit also folders.
+A - Audit only hidden files (when they start with a dot) or viceversa.
+B - Audit only for some specific users (related to (1)).
+
+(7)
+The log can grow until it takes all the available storage.
+Makes it circular (more expensive) or create more files when it reaches a certain size (better).
+
+(8)
+Make the GUI more compliant by adding support, for example, to Light/Dark appearance and Drag&Drop of folders in the watched folder list.
+I think would useful to make the icon in the status bar to convey some informations about the status and/or the activity of the app.
+
+(9)
+Implement notification and/or add more warning for errors.
+
+(10)
+Localization for other languages

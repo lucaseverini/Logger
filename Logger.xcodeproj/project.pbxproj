@@ -25,9 +25,7 @@
 		81F3076F1A6DD7B9008A98FD /* PreferencesController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81F3076B1A6DD7B9008A98FD /* PreferencesController.xib */; };
 		D30D8D1526A6E07C005074F3 /* DefaultPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = D30D8D1226A6E028005074F3 /* DefaultPrefs.plist */; };
 		D36CD31B26EA5E1E0029A47B /* FindFileInformations.mm in Sources */ = {isa = PBXBuildFile; fileRef = D36CD31A26EA5E1E0029A47B /* FindFileInformations.mm */; };
-		D36CD32226EB60F90029A47B /* Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = D36CD32126EB60F90029A47B /* Notes.txt */; };
-		D36CD32526EB60FF0029A47B /* MalwareBytes Interview Assignment.pdf in Resources */ = {isa = PBXBuildFile; fileRef = D36CD32426EB60FF0029A47B /* MalwareBytes Interview Assignment.pdf */; };
-		D36CD32826EB631A0029A47B /* FSEvents.txt in Resources */ = {isa = PBXBuildFile; fileRef = D36CD32726EB631A0029A47B /* FSEvents.txt */; };
+		D36CD32F26EB71230029A47B /* Notes and other docs in Resources */ = {isa = PBXBuildFile; fileRef = D36CD32E26EB71230029A47B /* Notes and other docs */; };
 		D3BA1F8F26AB2D85009C9132 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3BA1F8E26AB2D85009C9132 /* Images.xcassets */; };
 		D3BA1F9426AB2E18009C9132 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3BA1F9326AB2E18009C9132 /* MainMenu.xib */; };
 		DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
@@ -62,9 +60,7 @@
 		D30D8D3A26A8AA88005074F3 /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		D36CD31A26EA5E1E0029A47B /* FindFileInformations.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FindFileInformations.mm; sourceTree = "<group>"; };
 		D36CD31E26EA5F160029A47B /* FindFileInformations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindFileInformations.h; sourceTree = "<group>"; };
-		D36CD32126EB60F90029A47B /* Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Notes.txt; path = ../../Notes.txt; sourceTree = "<group>"; };
-		D36CD32426EB60FF0029A47B /* MalwareBytes Interview Assignment.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = "MalwareBytes Interview Assignment.pdf"; path = "../../MalwareBytes Interview Assignment.pdf"; sourceTree = "<group>"; };
-		D36CD32726EB631A0029A47B /* FSEvents.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = FSEvents.txt; path = ../../FSEvents.txt; sourceTree = "<group>"; };
+		D36CD32E26EB71230029A47B /* Notes and other docs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Notes and other docs"; sourceTree = "<group>"; };
 		D3A9AC5826AECAE500C93638 /* Logger.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Logger.entitlements; sourceTree = "<group>"; };
 		D3BA1F8E26AB2D85009C9132 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Images/Images.xcassets; sourceTree = "<group>"; };
 		D3BA1F9326AB2E18009C9132 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = Sources/MainMenu.xib; sourceTree = "<group>"; };
@@ -118,16 +114,6 @@
 			name = "FS Watcher";
 			sourceTree = "<group>";
 		};
-		D36CD32026EB60E40029A47B /* Notes and other documents */ = {
-			isa = PBXGroup;
-			children = (
-				D36CD32126EB60F90029A47B /* Notes.txt */,
-				D36CD32726EB631A0029A47B /* FSEvents.txt */,
-				D36CD32426EB60FF0029A47B /* MalwareBytes Interview Assignment.pdf */,
-			);
-			name = "Notes and other documents";
-			sourceTree = "<group>";
-		};
 		D37C3F7A26E8D6ED00E7BD25 /* Delegates */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +137,7 @@
 		DD4F7BF913C30F9F00825C6E = {
 			isa = PBXGroup;
 			children = (
+				D36CD32E26EB71230029A47B /* Notes and other docs */,
 				DD4F7C0E13C30F9F00825C6E /* Sources */,
 				DD4F7C0713C30F9F00825C6E /* Frameworks */,
 				DD4F7C0513C30F9F00825C6E /* Products */,
@@ -183,7 +170,6 @@
 		DD4F7C0E13C30F9F00825C6E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D36CD32026EB60E40029A47B /* Notes and other documents */,
 				81302DAE1A42743300B81758 /* FS Watcher */,
 				81302DAB1A42736E00B81758 /* App */,
 			);
@@ -298,10 +284,8 @@
 			files = (
 				D30D8D1526A6E07C005074F3 /* DefaultPrefs.plist in Resources */,
 				811AA0621A4888CF00C2E43F /* MenubarIcon_Processing.png in Resources */,
-				D36CD32526EB60FF0029A47B /* MalwareBytes Interview Assignment.pdf in Resources */,
 				81F3076F1A6DD7B9008A98FD /* PreferencesController.xib in Resources */,
 				D3BA1F9426AB2E18009C9132 /* MainMenu.xib in Resources */,
-				D36CD32226EB60F90029A47B /* Notes.txt in Resources */,
 				811AA0551A48833400C2E43F /* MenubarIcon@2x.png in Resources */,
 				811AA0541A48833400C2E43F /* MenubarIcon.png in Resources */,
 				811AA0631A4888CF00C2E43F /* MenubarIcon_Processing@2x.png in Resources */,
@@ -309,7 +293,7 @@
 				81D1C2F91A6DD31300C80101 /* Prefs.icns in Resources */,
 				D3BA1F8F26AB2D85009C9132 /* Images.xcassets in Resources */,
 				811AA0651A4888CF00C2E43F /* MenubarIconAlt_Processing@2x.png in Resources */,
-				D36CD32826EB631A0029A47B /* FSEvents.txt in Resources */,
+				D36CD32F26EB71230029A47B /* Notes and other docs in Resources */,
 				811AA0641A4888CF00C2E43F /* MenubarIconAlt_Processing.png in Resources */,
 				811AA0591A4885B800C2E43F /* MenubarIconAlt@2x.png in Resources */,
 			);
