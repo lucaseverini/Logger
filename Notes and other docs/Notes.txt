@@ -2,6 +2,8 @@ Logger for macOS.
 
 The app is implemented as a status bar (the icon is the first one I found around).
 The menu has few commands to start, stop, configure and quit the app.
+It has been quickly tested to run in Mojave up to Big Sur. 
+
 From the preferences the app can be set to start at login as a login item (like the DropBox app or other status bar applications).
 The core of the audit is in Watcher.cpp.
 It's implemented using the services of the CoreServices/FSEvents framework.
