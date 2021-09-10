@@ -6,7 +6,7 @@
 //
 
 #include <stdlib.h>
-#include <libgen.h>
+#include <sys/time.h>
 #import "ApplicationDelegate.h"
 #import "Utilities.h"
 
@@ -72,4 +72,26 @@ NSModalResponse showAlert(NSString *message, NSAlertStyle style, NSArray *button
     }
 
     return [alert runModal];
+}
+
+// --------------------------------------------------------------------------
+int64_t currentMillisecs(void)
+{
+    struct timeval time;
+    gettimeofday(&time, NULL);
+
+    int64_t millis = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+
+    return millis;
+}
+
+// --------------------------------------------------------------------------
+int64_t currentMicrosecs(void)
+{
+    struct timeval time;
+    gettimeofday(&time, NULL);
+
+    int64_t millis = (time.tv_sec * 1000000) + time.tv_usec;
+
+    return millis;
 }

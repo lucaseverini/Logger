@@ -7,7 +7,7 @@
 
 typedef struct watcherSettings
 {
-	FSEventStreamEventId    since_when;
+	FSEventStreamEventId    sinceWhen;
 	CFTimeInterval			latency;
 	NSArray<NSString*>		*folders;
     NSDateFormatter         *dateFormatter;

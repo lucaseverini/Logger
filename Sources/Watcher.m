@@ -318,7 +318,7 @@ static int createWatcher(watcherSettings *settings)
 	                            (FSEventStreamCallback)&fsevents_callback,
 	                            &context,
                                 (__bridge CFArrayRef)settings->folders,
-                                settings->since_when,
+                                settings->sinceWhen,
 	                            settings->latency,
 	                            kFSEventStreamCreateFlagWatchRoot | 
 								kFSEventStreamCreateFlagFileEvents |
@@ -421,10 +421,10 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
     }
     settings.logFd = logFd;
 
-    settings.since_when = kFSEventStreamEventIdSinceNow;
+    settings.sinceWhen = kFSEventStreamEventIdSinceNow;
     if ([sinceWhen length] != 0)
     {
-        settings.since_when = strtoull([sinceWhen UTF8String], NULL, 0);
+        settings.sinceWhen = strtoull([sinceWhen UTF8String], NULL, 0);
     }
 
     settings.latency = latency;
@@ -440,7 +440,7 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
     printf("Check subfolders: %s\n", dontCheckSubFolders == NO ? "Yes" : "No");
     printf("Search pid and user: %s\n", dontSearchPidUser == NO ? "Yes" : "No");
     printf("Latency: %.03f\n", settings.latency);
-    printf("Since: 0x%llX\n", settings.since_when);
+    printf("Since: 0x%llX\n", settings.sinceWhen);
 
     char buffer[1024];
     sprintf(buffer, "\n%s\nLogger started.\n", [[settings.dateFormatter stringFromDate:[NSDate date]] UTF8String]);

@@ -24,6 +24,5 @@
 
 - (void) start;
 - (void) stop;
-- (void) setMenubarIcon:(BOOL)processing;
 
 @end

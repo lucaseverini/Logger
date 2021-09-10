@@ -6,34 +6,10 @@
 //
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <libproc.h>
 #include <sys/sysctl.h>
 #include <pwd.h>
 #include "FindFileInformations.h"
-
-// --------------------------------------------------------------------------
-int64_t currentMillisecs(void)
-{
-    struct timeval time;
-    gettimeofday(&time, NULL);
-
-    int64_t millis = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-
-    return millis;
-}
-
-// --------------------------------------------------------------------------
-int64_t currentMicrosecs(void)
-{
-    struct timeval time;
-    gettimeofday(&time, NULL);
-
-    int64_t millis = (time.tv_sec * 1000000) + time.tv_usec;
-
-    return millis;
-}
 
 // --------------------------------------------------------------------------
 pid_t* pidlist(int *listSize)

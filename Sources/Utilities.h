@@ -8,3 +8,5 @@
 void sendNotification (NSString *message);
 NSString *getApplicationSupportFolder (void);
 NSModalResponse showAlert (NSString *message, NSAlertStyle style = NSAlertStyleWarning, NSArray *buttons = nil);
+int64_t currentMillisecs(void);
+int64_t currentMicrosecs(void);
