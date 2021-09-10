@@ -1,10 +1,11 @@
 //
-//  Watcher.m
+//  Watcher.cpp
 //  Logger
 //
 //  Created by Luca Severini on 7-Sep-2021.
 //
 
+#include <CoreServices/CoreServices.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>

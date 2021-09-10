@@ -1,8 +1,13 @@
 Logger for macOS.
 
-The app is implemeted as a status bar (the icon is the first one I found around).
+The app is implemented as a status bar (the icon is the first one I found around).
 The menu has few commands to start, stop, configure and quit the app.
 From the preferences the app can be set to start at login as a login item (like the DropBox app or other status bar applications).
+The core of the audit is in Watcher.cpp.
+It's implemented using the services of the CoreServices/FSEvents framework.
+There is an issue with looking for pid and user of a file when the process doesn't keep the file open for enough time for the logger to find those information by iterating through the file descriptors associated with the process.
+Other than that that search is quite expensive so would be much better to find a different approach but unfortunately I didn't have enough time until now (Friday September 10).
+There is a new service called Apple Endpoint Security that may provide all the information in an easier and less expensive way. I will give a look to it in the meantime.
 
 POSSIBLE IMPROVEMENTS AND OTHER NOTES:
 
@@ -28,7 +33,7 @@ It may work but could be quite expensive.
 Adjust the configuration when the path to a watched folder changes.
 This is something that I didn't have the time to implement.
 When an event kFSEventStreamEventFlagRootChanged is received the new path of the folder must be recovered and the event ID saved.
-With the new path and the event ID the watcher proces is reinitialized to colelct the events lost by using the saved event ID.
+With the new path and the event ID the watcher process is reinitialized to collect the events lost by using the saved event ID.
 
 (4)
 Avoid to use deprecated functions (CoreServices/SharedFileList) to add the logger in the login items list.
