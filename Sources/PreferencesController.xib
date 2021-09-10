@@ -11,6 +11,7 @@
                 <outlet property="addFolderButton" destination="QII-HN-Qin" id="y2k-JU-c39"/>
                 <outlet property="autoStartButton" destination="uYU-7P-B1h" id="LnD-Kx-T62"/>
                 <outlet property="dontCheckSubfoldersButton" destination="4gy-bR-Qmu" id="FHx-Hg-yfa"/>
+                <outlet property="dontSearchPidUserButton" destination="JXU-zw-mkm" id="Jnx-wh-abS"/>
                 <outlet property="latency" destination="Bli-fj-NYZ" id="yCU-jV-1En"/>
                 <outlet property="logFile" destination="3YX-CM-tLF" id="fbz-Xt-FC3"/>
                 <outlet property="loginItemButton" destination="LV6-GW-j3e" id="aC9-Hf-JHm"/>
@@ -26,14 +27,14 @@
         <window title="Logger Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" topStrut="YES"/>
-            <rect key="contentRect" x="776" y="658" width="480" height="512"/>
+            <rect key="contentRect" x="776" y="658" width="480" height="533"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2048" height="1257"/>
             <view key="contentView" id="se5-gp-TjO">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="512"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="533"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LV6-GW-j3e">
-                        <rect key="frame" x="18" y="476" width="225" height="18"/>
+                        <rect key="frame" x="18" y="497" width="225" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Launch Logger on system startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="KWZ-MP-mXj">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -44,7 +45,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYU-7P-B1h">
-                        <rect key="frame" x="18" y="450" width="157" height="18"/>
+                        <rect key="frame" x="18" y="471" width="157" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Start Logger at launch" bezelStyle="regularSquare" imagePosition="left" inset="2" id="T9W-m8-z98">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -55,7 +56,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yxa-kG-iXU">
-                        <rect key="frame" x="14" y="410" width="140" height="32"/>
+                        <rect key="frame" x="14" y="431" width="140" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Set Log File…" bezelStyle="rounded" alignment="center" scrollable="YES" lineBreakMode="clipping" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Umo-jA-byP">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -66,7 +67,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3YX-CM-tLF" userLabel="Log File">
-                        <rect key="frame" x="154" y="420" width="320" height="16"/>
+                        <rect key="frame" x="154" y="441" width="320" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="truncatingHead" placeholderString="Log file not set." usesSingleLineMode="YES" id="gjU-Uw-hTr">
                             <font key="font" metaFont="system"/>
@@ -75,7 +76,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f9t-R2-RGS">
-                        <rect key="frame" x="18" y="387" width="151" height="16"/>
+                        <rect key="frame" x="18" y="408" width="151" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Folders to monitor" id="Uk0-OM-65O">
                             <font key="font" metaFont="system"/>
@@ -84,7 +85,7 @@
                         </textFieldCell>
                     </textField>
                     <scrollView autoresizesSubviews="NO" autohidesScrollers="YES" horizontalLineScroll="208" horizontalPageScroll="10" verticalLineScroll="208" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" id="CcS-aX-mlj">
-                        <rect key="frame" x="20" y="175" width="440" height="210"/>
+                        <rect key="frame" x="20" y="196" width="440" height="210"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" autoresizesSubviews="NO" id="cL7-Do-vPH">
                             <rect key="frame" x="1" y="1" width="438" height="208"/>
@@ -151,7 +152,7 @@
                         </scroller>
                     </scrollView>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QII-HN-Qin" userLabel="Add Folders">
-                        <rect key="frame" x="14" y="139" width="140" height="32"/>
+                        <rect key="frame" x="14" y="160" width="140" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Add Folder…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6Kg-2o-i69">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -162,7 +163,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yeF-Bc-Sd8" userLabel="Remove Folders">
-                        <rect key="frame" x="166" y="139" width="140" height="32"/>
+                        <rect key="frame" x="166" y="160" width="140" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Remove Folder…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d7O-05-7oT">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -173,7 +174,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4gy-bR-Qmu">
-                        <rect key="frame" x="18" y="120" width="163" height="18"/>
+                        <rect key="frame" x="18" y="141" width="163" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Don't check subfolders" bezelStyle="regularSquare" imagePosition="left" inset="2" id="WHo-93-ve6">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -183,8 +184,19 @@
                             <action selector="setUnsetDontCheckSubfolders:" target="-2" id="rDh-O1-dFq"/>
                         </connections>
                     </button>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JXU-zw-mkm">
+                        <rect key="frame" x="18" y="114" width="203" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Don't search for PID and User" bezelStyle="regularSquare" imagePosition="left" inset="2" id="an0-4S-ZZu">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setUnsetDontSearchPidUser:" target="-2" id="LDs-55-RkV"/>
+                        </connections>
+                    </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FKu-Lq-7Rs">
-                        <rect key="frame" x="18" y="82" width="125" height="19"/>
+                        <rect key="frame" x="18" y="74" width="125" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Latency in seconds:" id="Jwc-Xd-2uF">
                             <font key="font" metaFont="system"/>
@@ -193,7 +205,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bli-fj-NYZ" userLabel="Latency">
-                        <rect key="frame" x="147" y="82" width="96" height="21"/>
+                        <rect key="frame" x="147" y="73" width="96" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" placeholderString="from 0.1 to 5.0" drawsBackground="YES" id="sjA-j5-AcC">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" formatWidth="-1" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="jZV-ox-wS1"/>
@@ -203,7 +215,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qLo-5Q-lAJ">
-                        <rect key="frame" x="82" y="13" width="120" height="32"/>
+                        <rect key="frame" x="82" y="17" width="120" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Confirm" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="5AH-EU-jiO">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -214,7 +226,7 @@
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1v9-Mb-fdg">
-                        <rect key="frame" x="279" y="13" width="120" height="32"/>
+                        <rect key="frame" x="279" y="17" width="120" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SX1-0I-g9x">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -232,7 +244,7 @@ Gw
             <connections>
                 <outlet property="delegate" destination="-2" id="0bl-1N-AYu"/>
             </connections>
-            <point key="canvasLocation" x="74.5" y="250"/>
+            <point key="canvasLocation" x="74" y="260.5"/>
         </window>
     </objects>
 </document>

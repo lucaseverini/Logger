@@ -180,7 +180,6 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid, const c
 
                         if (strcmp(pi.pvip.vip_path, path) == 0)
                         {
-                            printf("FOUND-1\n");
                             pidFound = pid;
                             break;
                         }
@@ -218,7 +217,6 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid, const c
 
                     if (vi.pvi.vi_stat.vst_ino == statBuf.st_ino && vi.pvi.vi_stat.vst_dev == statBuf.st_dev)
                     {
-                        printf("FOUND-2\n");
                         pidFound = pid;
                         break;
                      }
@@ -233,15 +231,13 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid, const c
 
     if (pidFound)
     {
-        printf("pid: %d\n", pidFound);
         int uid = uidFromPid(pidFound);
-        printf("uid: %d\n", uid);
         struct passwd *pws = getpwuid(uid);
-        printf("uname: %s\n", pws->pw_name);
 
         *foundPid = pidFound;
         *foundUid = uid;
-        *foundUname = pws->pw_name;
+        *foundUname = pws != NULL ? pws->pw_name : NULL;
+        
         return 1;
     }
 

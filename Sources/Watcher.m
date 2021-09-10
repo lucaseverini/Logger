@@ -187,13 +187,17 @@ void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, co
         sprintf(tmpStr, "\nTime: %s\nFile: %s\n", eventTimeCopy, eventPathCopy);
         strcat(buffer, tmpStr);
 
-        int pid, uid;
-        const char *uname;
-        int result = findFileInformations(eventPathCopy, &pid, &uid, &uname);
-        if (result > 0)
+        if (settings.dontSearchPidUser == false)
         {
-            sprintf(tmpStr, "Pid: %d\nUser: %d %s\n", pid, uid, uname);
-            strcat(buffer, tmpStr);
+            int pid, uid;
+            const char *uname;
+            int result = findFileInformations(eventPathCopy, &pid, &uid, &uname);
+            printf("pid: %d uid: %d uname: %s\n", pid, uid, uname);
+            if (result > 0)
+            {
+                sprintf(tmpStr, "Pid: %d\nUser: %d %s\n", pid, uid, uname);
+                strcat(buffer, tmpStr);
+            }
         }
 
         if (eventFlags & kFSEventStreamEventFlagMustScanSubDirs)
@@ -373,7 +377,7 @@ void disposeWatcher (void)
 // sinceWhen <when> specify a time from whence to search for applicable events
 // latency <seconds> specify latency
 // --------------------------------------------------------------------------------
-int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterval latency, NSString *logPath, BOOL dontCheckSubFolders)
+int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterval latency, NSString *logPath, BOOL dontCheckSubFolders, BOOL dontSearchPidUser)
 {
 	if ([folders count] == 0)
 	{
@@ -386,6 +390,7 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
     [settings.dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     settings.dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss.SSS";
     settings.dontCheckSubFolders = dontCheckSubFolders;
+    settings.dontSearchPidUser = dontSearchPidUser;
 
     NSMutableArray *realPaths = [NSMutableArray new];
     for (NSString *folder in folders)
@@ -433,6 +438,7 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
     printf("Watching folders: %s\n", [[settings.folders debugDescription] UTF8String]);
     printf("Log: %d %s\n", settings.logFd, [logPath UTF8String]);
     printf("Check subfolders: %s\n", dontCheckSubFolders == NO ? "Yes" : "No");
+    printf("Search pid and user: %s\n", dontSearchPidUser == NO ? "Yes" : "No");
     printf("Latency: %.03f\n", settings.latency);
     printf("Since: 0x%llX\n", settings.since_when);
 

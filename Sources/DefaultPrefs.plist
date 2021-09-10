@@ -10,7 +10,7 @@
 	<real>0.5</real>
 	<key>DontCheckSubfolders</key>
 	<false/>
-	<key>CheckInvisibleFiles</key>
+	<key>DontSearchPidUser</key>
 	<false/>
 	<key>StartAtLaunch</key>
 	<false/>

@@ -108,8 +108,9 @@ NSApplication *app;
     printf("Logger starting...\n");
 
     BOOL checkSubfolders = [settings boolForKey:@"DontCheckSubfolders"];
+    BOOL dontSearchPidUser = [settings boolForKey:@"DontSearchPidUser"];
     CFTimeInterval latency = [[settings objectForKey:@"Latency"] doubleValue];
-    if (initWatcher(folders, nil, latency, logPath, checkSubfolders) == 0)
+    if (initWatcher(folders, nil, latency, logPath, checkSubfolders, dontSearchPidUser) == 0)
     {
         printf("### Logger started\n");
         self.loggerStarted = YES;

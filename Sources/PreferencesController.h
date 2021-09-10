@@ -13,6 +13,7 @@
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *dontCheckSubfoldersButton;
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *addFolderButton;
 @property (nonatomic, unsafe_unretained) IBOutlet NSButton *removeFolderButton;
+@property (nonatomic, unsafe_unretained) IBOutlet NSButton *dontSearchPidUserButton;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTableView *tableView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSScrollView *scrollView;
 @property (nonatomic, unsafe_unretained) IBOutlet NSTextField *latency;
@@ -30,5 +31,6 @@
 - (IBAction) confirm:(id)sender;
 - (IBAction) cancel:(id)sender;
 - (IBAction) tableViewSelected:(id)sender;
+- (IBAction) setUnsetDontSearchPidUser:(id)sender;
 
 @end

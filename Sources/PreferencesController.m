@@ -40,6 +40,8 @@
 
         [self.dontCheckSubfoldersButton setState:[settings boolForKey:@"DontCheckSubfolders"]];
 
+        [self.dontSearchPidUserButton setState:[settings boolForKey:@"DontSearchPidUser"]];
+
         NSString *logPath = [settings stringForKey:@"LogPath"];
         if ([logPath length] != 0)
         {
@@ -198,6 +200,10 @@
 {
 }
 
+- (IBAction) setUnsetDontSearchPidUser:(id)sender
+{
+}
+
 - (IBAction) addFolder:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
@@ -247,6 +253,7 @@
         [settings setBool:self.autoStartButton.state forKey:@"StartAtLaunch"];
         [settings setObject:self.logFile.stringValue forKey:@"LogPath"];
         [settings setObject:self.folders forKey:@"Folders"];
+        [settings setBool:self.dontSearchPidUserButton.state forKey:@"DontSearchPidUser"];
 
         if ([self.loginItemButton state] && [self checkLoginItem] == NO)
         {
