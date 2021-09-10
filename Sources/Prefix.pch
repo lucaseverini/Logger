@@ -1,0 +1,19 @@
+//
+//  Prefix.pch
+//  Logger
+//
+//  Created by Luca Severini on 7-Sep-2021.
+//
+//  Prefix header for all source files
+//
+
+#ifdef __OBJC__
+
+#import <Cocoa/Cocoa.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <CoreServices/CoreServices.h>
+
+#import "Globals.h"
+#import "Macros.h"
+
+#endif
