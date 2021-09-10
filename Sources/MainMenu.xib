@@ -25,7 +25,7 @@
                         <action selector="startLoggerAction:" target="494" id="fdN-XG-YKf"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Stop Logger" id="fdq-1R-JvL">
+                <menuItem title="Stop Logger" enabled="NO" id="fdq-1R-JvL">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="stopLoggerAction:" target="494" id="cRN-jH-OWM"/>

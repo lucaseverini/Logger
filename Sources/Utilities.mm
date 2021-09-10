@@ -71,7 +71,5 @@ NSModalResponse showAlert(NSString *message, NSAlertStyle style, NSArray *button
         }
     }
 
-    NSInteger response = [alert runModal];
-    printf("Alert: %ld\n", (long)response);
-    return response;
+    return [alert runModal];
 }

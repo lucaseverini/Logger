@@ -54,14 +54,15 @@ NSApplication *app;
 - (void) applicationWillBecomeActive:(NSNotification*)notification;
 {
 	// NSLog(@"applicationDidBecomeActive");
-    // TODO: Some update should be done here.
+    // TODO: Some update should be done here?
 }
 
 - (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication*)sender
 {
     if (self.loggerStarted)
     {
-        [self stop];
+        showAlert(@"Logger must be stopped before to quit.", NSAlertStyleCritical, @[@"Cancel"]);
+        return NSTerminateCancel;
     }
 
 	printf("%s quit\n", [[[NSRunningApplication currentApplication] localizedName] UTF8String]);
@@ -79,6 +80,18 @@ NSApplication *app;
 - (void) userNotificationCenter:(NSUserNotificationCenter *)center didActivateNotification:(NSUserNotification *)notification
 {
 	printf("User clicked on notification %s\n", [[notification debugDescription] UTF8String]);
+}
+
+- (void) awakeFromNib
+{
+    self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:STATUS_ITEM_WIDTH];
+    [((NSButtonCell*)self.statusItem.button.cell) setHighlightsBy:NSContentsCellMask | NSChangeBackgroundCellMask];
+    self.statusItem.button.image = [NSImage imageNamed:@"MenubarIcon"];
+    self.statusItem.menu = self.statusMenu;
+
+    // If application is background (LSBackgroundOnly) you need this call
+    // otherwise the window manager may draw other windows on top of the menu
+    // [NSApp activateIgnoringOtherApps:YES];
 }
 
 - (void) start
@@ -114,6 +127,10 @@ NSApplication *app;
     {
         printf("### Logger started\n");
         self.loggerStarted = YES;
+
+        [[self.statusItem.menu itemAtIndex:0] setEnabled:NO];
+        [[self.statusItem.menu itemAtIndex:1] setEnabled:YES];
+        [[self.statusItem.menu itemAtIndex:5] setEnabled:NO];
     }
     else
     {
@@ -135,40 +152,11 @@ NSApplication *app;
 
     printf("### Logger stopped\n");
 
+    [[self.statusItem.menu itemAtIndex:0] setEnabled:YES];
+    [[self.statusItem.menu itemAtIndex:1] setEnabled:NO];
+    [[self.statusItem.menu itemAtIndex:5] setEnabled:YES];
+
     self.loggerStarted = NO;
-}
-
-- (void) setMenubarIcon:(BOOL)processing
-{
-    static NSInteger curIcon = -1;
-
-    if (processing && curIcon != 1)
-    {
-        curIcon = 1;
-
-        self.statusItem.button.image = [NSImage imageNamed:@"MenubarIcon_Processing"];
-        self.statusItem.button.alternateImage = [NSImage imageNamed:@"MenubarIconAlt_Processing"];
-    }
-    else if (!processing && curIcon != 0)
-    {
-        curIcon = 0;
-
-        self.statusItem.button.image = [NSImage imageNamed:@"MenubarIcon"];
-        self.statusItem.button.alternateImage = [NSImage imageNamed:@"MenubarIconAlt"];
-    }
-}
-
-- (void) awakeFromNib
-{
-    // Set the MenuBar Status Item as a sticky button
-    self.statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:STATUS_ITEM_WIDTH];
-    [((NSButtonCell*)self.statusItem.button.cell) setHighlightsBy:NSContentsCellMask | NSChangeBackgroundCellMask];
-    self.statusItem.button.image = [NSImage imageNamed:@"MenubarIcon"];
-    self.statusItem.menu = self.statusMenu;
-
-    // If application is background (LSBackgroundOnly) you need this call
-    // otherwise the window manager may draw other windows on top of the menu
-    // [NSApp activateIgnoringOtherApps:YES];
 }
 
 - (IBAction) startLoggerAction:(id)sender
@@ -198,7 +186,8 @@ NSApplication *app;
     }
     else
     {
-        showAlert(@"Log file not found.");
+        NSString *msg = [NSString stringWithFormat:@"Log file %@ not found.", logPath];
+        showAlert(msg, NSAlertStyleCritical);
     }
 }
 
