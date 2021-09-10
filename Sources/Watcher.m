@@ -187,13 +187,12 @@ void reportFSEvent(FSEventStreamEventFlags eventFlags, const char *eventPath, co
         sprintf(tmpStr, "\nTime: %s\nFile: %s\n", eventTimeCopy, eventPathCopy);
         strcat(buffer, tmpStr);
 
-        int pid = -1;
-        int uid = -1;
-        int result = findFileInformations(eventPathCopy, &pid, &uid);
-        printf("pid: %d uid: %d\n", pid, uid);
+        int pid, uid;
+        const char *uname;
+        int result = findFileInformations(eventPathCopy, &pid, &uid, &uname);
         if (result > 0)
         {
-            sprintf(tmpStr, "Pid: %d\nUser: %d\n", pid, uid);
+            sprintf(tmpStr, "Pid: %d\nUser: %d %s\n", pid, uid, uname);
             strcat(buffer, tmpStr);
         }
 

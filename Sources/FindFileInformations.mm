@@ -57,15 +57,9 @@ uid_t uidFromPid(pid_t pid)
 
     struct kinfo_proc process;
     size_t procBufferSize = sizeof(process);
-
-    // Compose search path for sysctl. Here you can specify PID directly.
-    const u_int pathLenth = 4;
-    int path[pathLenth] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
-
-    int sysctlResult = sysctl(path, pathLenth, &process, &procBufferSize, NULL, 0);
-
-    // If sysctl did not fail and process with PID available - take UID.
-    if ((sysctlResult == 0) && (procBufferSize != 0))
+    int path[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, pid};
+    int result = sysctl(path, sizeof(path) / sizeof(int), &process, &procBufferSize, NULL, 0);
+    if (result == 0 && procBufferSize != 0)
     {
         uid = process.kp_eproc.e_ucred.cr_uid;
     }
@@ -74,17 +68,11 @@ uid_t uidFromPid(pid_t pid)
 }
 
 // --------------------------------------------------------------------------
-int findFileInformations(const char *path, int *foundPid, int *foundUid)
+int findFileInformations(const char *path, int *foundPid, int *foundUid, const char* *foundUname)
 {
-    struct stat statBuf;
-    int ret = stat(path, &statBuf);
-    if (ret != 0)
-    {
-        return -1;
-    }
-
     *foundPid = -1;
     *foundUid = -1;
+    *foundUname = NULL;
 
     printf("File: %s\n", path);
 
@@ -153,16 +141,11 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid)
             break;
         }
 
-        // printf("fds_count: %d\n", fds_count);
-
-        // iterate through each file descriptor
         for (int i = 0; i < fds_count; i++)
         {
             struct proc_fdinfo *fdp;
 
             fdp = &fds[i];
-
-            // printf("fdp: %p\n", fdp);
 
             switch (fdp->proc_fdtype)
             {
@@ -174,6 +157,7 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid)
                     buf_used = proc_pidfdinfo(pid, fdp->proc_fd, PROC_PIDFDVNODEPATHINFO, &pi, sizeof(pi));
                     if (buf_used <= 0)
                     {
+                        printf("errno: %s\n", strerror(errno));
                         if (errno == ENOENT)
                         {
                             /*
@@ -182,20 +166,17 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid)
                              * descriptor's vnode has been revoked. As the libproc API
                              * matures, this code may need to be revisited.
                              */
-                            continue;
                         }
-
-                        // must be continue...
-                        return -1;
+                        continue;
                     }
                     else if (buf_used < sizeof(pi))
                     {
-                        // if we didn't get enough information
+                        // Not enough information
                         return -1;
                     }
                     else
                     {
-                        printf("path: %s\n", pi.pvip.vip_path);
+                        // printf("path: %s\n", pi.pvip.vip_path);
 
                         if (strcmp(pi.pvip.vip_path, path) == 0)
                         {
@@ -206,10 +187,18 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid)
                     }
 #endif
 #if 0
+                    struct stat statBuf;
+                    int ret = stat(path, &statBuf);
+                    if (ret != 0)
+                    {
+                        return -1;
+                    }
+
                     struct vnode_fdinfo vi;
                     buf_used = proc_pidfdinfo(pid, fdp->proc_fd, PROC_PIDFDVNODEINFO, &vi, sizeof(vi));
                     if (buf_used <= 0)
                     {
+                        printf("errno: %s\n", strerror(errno));
                         if (errno == ENOENT)
                         {
                             /*
@@ -218,13 +207,12 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid)
                              * descriptor's vnode has been revoked. As the libproc API
                              * matures, this code may need to be revisited.
                              */
-                            continue;
                         }
-                        return -1;
+                        continue;
                     }
                     else if (buf_used < sizeof(vi))
                     {
-                        // if we didn't get enough information
+                        // Not enough information
                         return -1;
                     }
 
@@ -253,7 +241,7 @@ int findFileInformations(const char *path, int *foundPid, int *foundUid)
 
         *foundPid = pidFound;
         *foundUid = uid;
-
+        *foundUname = pws->pw_name;
         return 1;
     }
 

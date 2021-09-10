@@ -11,7 +11,6 @@
                 <outlet property="addFolderButton" destination="QII-HN-Qin" id="y2k-JU-c39"/>
                 <outlet property="autoStartButton" destination="uYU-7P-B1h" id="LnD-Kx-T62"/>
                 <outlet property="dontCheckSubfoldersButton" destination="4gy-bR-Qmu" id="FHx-Hg-yfa"/>
-                <outlet property="folder" destination="6mc-JM-82r" id="BTZ-H6-2Be"/>
                 <outlet property="latency" destination="Bli-fj-NYZ" id="yCU-jV-1En"/>
                 <outlet property="logFile" destination="3YX-CM-tLF" id="fbz-Xt-FC3"/>
                 <outlet property="loginItemButton" destination="LV6-GW-j3e" id="aC9-Hf-JHm"/>
@@ -69,7 +68,7 @@
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3YX-CM-tLF" userLabel="Log File">
                         <rect key="frame" x="154" y="420" width="320" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" lineBreakMode="truncatingHead" title="Not set." usesSingleLineMode="YES" id="gjU-Uw-hTr">
+                        <textFieldCell key="cell" lineBreakMode="truncatingHead" placeholderString="Log file not set." usesSingleLineMode="YES" id="gjU-Uw-hTr">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -133,7 +132,7 @@
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <action selector="tableViewClicked:" target="-2" id="CRo-Rd-TuX"/>
+                                        <action selector="tableViewSelected:" target="-2" id="mQo-VP-8Wm"/>
                                         <outlet property="dataSource" destination="-2" id="7Bj-Km-d8b"/>
                                         <outlet property="delegate" destination="-2" id="rUc-I4-F9r"/>
                                     </connections>

@@ -6,6 +6,7 @@
 //
 
 #import "PreferencesController.h"
+#import "Utilities.h"
 
 @implementation PreferencesController
 
@@ -21,9 +22,7 @@
 
 - (void) windowDidBecomeMain:(NSNotification *)notification
 {
-    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
-    [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
+    [self.loginItemButton setState:[self checkLoginItem]];
 }
 
 - (void) windowDidChangeOcclusionState:(NSNotification *)notification
@@ -32,11 +31,14 @@
     if (window.occlusionState & NSWindowOcclusionStateVisible)
     {
         NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-        BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
-        [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
 
-        CFTimeInterval latencyValue = [[settings objectForKey:@"Latency"] doubleValue];
-        self.latency.doubleValue = latencyValue;
+        [self.autoStartButton setState:[self checkLoginItem]];
+
+        self.latency.doubleValue = [[settings objectForKey:@"Latency"] doubleValue];
+
+        [self.autoStartButton setState:[settings boolForKey:@"StartAtLaunch"]];
+
+        [self.dontCheckSubfoldersButton setState:[settings boolForKey:@"DontCheckSubfolders"]];
 
         NSString *logPath = [settings stringForKey:@"LogPath"];
         if ([logPath length] != 0)
@@ -44,9 +46,15 @@
             self.logFile.stringValue = logPath;
             self.logFile.toolTip = logPath;
         }
+        else
+        {
+            self.logFile.stringValue = @"";
+            self.logFile.toolTip = nil;
+        }
 
         self.folders = [[settings stringArrayForKey:@"Folders"] mutableCopy];
         [self.tableView reloadData];
+        [self tableViewSelected:nil];
     }
 }
 
@@ -55,67 +63,98 @@
     return [self checkPreferences];
 }
 
-- (void) addLoginItem:(LSSharedFileListRef)loginItemRef forUrl:(CFURLRef)url
+- (BOOL) addLoginItem
 {
-    LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItemRef, kLSSharedFileListItemLast, NULL, NULL, url, NULL, NULL);
-    if (item != 0)
+    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItem != 0)
     {
-        printf("Login item added.\n");
-        CFRelease(item);
-    }
-}
+        CFURLRef itemUrl = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+        LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(loginItem, kLSSharedFileListItemLast, NULL, NULL, itemUrl, NULL, NULL);
 
-- (BOOL) checkLoginItem:(LSSharedFileListRef)loginItemRef withBundle:(NSString*)bundleId
-{
-    UInt32 seedValue;
-    NSArray *loginItems = (NSArray*)CFBridgingRelease(LSSharedFileListCopySnapshot(loginItemRef, &seedValue));
-    for (id item in loginItems)
-    {
-        LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
-        CFURLRef itemUrl;
-        if (LSSharedFileListItemResolve(itemRef, 0, &itemUrl, NULL) == noErr)
+        CFRelease(loginItem);
+
+        if (item != 0)
         {
-            NSBundle *itemBundle = [NSBundle bundleWithURL:(__bridge NSURL*)itemUrl];
-            NSString *itemBundleId = [itemBundle bundleIdentifier];
+            printf("Login item added.\n");
+            CFRelease(item);
 
-            if ([bundleId isEqualToString:itemBundleId])
-            {
-                printf("Login item present.\n");
-                return YES;
-            }
+            return YES;
         }
     }
 
     return NO;
 }
 
-- (BOOL) removeLoginItem:(LSSharedFileListRef)loginItemRef withBundle:(NSString*)bundleId
+- (BOOL) checkLoginItem
 {
-    UInt32 seedValue;
-    NSArray *loginItems = (NSArray*)CFBridgingRelease(LSSharedFileListCopySnapshot(loginItemRef, &seedValue));
-    for (id item in loginItems)
+    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItem != 0)
     {
-        LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
-        CFURLRef itemUrl;
-        if (LSSharedFileListItemResolve(itemRef, 0, &itemUrl, NULL) == noErr)
-        {
-            NSBundle *itemBundle = [NSBundle bundleWithURL:(__bridge NSURL*)itemUrl];
-            NSString *itemBundleId = [itemBundle bundleIdentifier];
+        NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
 
-            if ([bundleId isEqualToString:itemBundleId])
+        UInt32 seedValue;
+        NSArray *loginItems = (NSArray*)CFBridgingRelease(LSSharedFileListCopySnapshot(loginItem, &seedValue));
+        for (id item in loginItems)
+        {
+            LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
+            CFURLRef itemUrl;
+            if (LSSharedFileListItemResolve(itemRef, 0, &itemUrl, NULL) == noErr)
             {
-                if (LSSharedFileListItemRemove(loginItemRef, itemRef) == noErr)
+                NSBundle *itemBundle = [NSBundle bundleWithURL:(__bridge NSURL*)itemUrl];
+                NSString *itemBundleId = [itemBundle bundleIdentifier];
+
+                CFRelease(itemUrl);
+
+                if ([bundleId isEqualToString:itemBundleId])
                 {
-                    printf("Login item removed.\n");
                     return YES;
-                }
-                else
-                {
-                    printf("Login item not removed.\n");
-                    return NO;
                 }
             }
         }
+
+        CFRelease(loginItem);
+    }
+
+    return NO;
+}
+
+- (BOOL) removeLoginItem
+{
+    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
+    if (loginItem != 0)
+    {
+        NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+
+        UInt32 seedValue;
+        NSArray *loginItems = (NSArray*)CFBridgingRelease(LSSharedFileListCopySnapshot(loginItem, &seedValue));
+        for (id item in loginItems)
+        {
+            LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
+            CFURLRef itemUrl;
+            if (LSSharedFileListItemResolve(itemRef, 0, &itemUrl, NULL) == noErr)
+            {
+                NSBundle *itemBundle = [NSBundle bundleWithURL:(__bridge NSURL*)itemUrl];
+                NSString *itemBundleId = [itemBundle bundleIdentifier];
+
+                CFRelease(itemUrl);
+
+                if ([bundleId isEqualToString:itemBundleId])
+                {
+                    if (LSSharedFileListItemRemove(loginItem, itemRef) == noErr)
+                    {
+                        printf("Login item removed.\n");
+                        return YES;
+                    }
+                    else
+                    {
+                        printf("Login item not removed.\n");
+                        return NO;
+                    }
+                }
+            }
+        }
+
+        CFRelease(loginItem);
     }
 
     return NO;
@@ -123,38 +162,16 @@
 
 - (IBAction) setUnsetLoginItem:(id)sender
 {
-    LSSharedFileListRef loginItem = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
-    if (loginItem != 0)
-    {
-        if ([[sender selectedCell] state] == YES)
-        {
-            CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-            [self addLoginItem:loginItem forUrl:url];
-
-            BOOL isLoginItem = [self checkLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
-            [self.loginItemButton setState:isLoginItem ? NSControlStateValueOn : NSControlStateValueOff];
-        }
-        else
-        {
-            [self removeLoginItem:loginItem withBundle:[[NSBundle mainBundle] bundleIdentifier]];
-        }
-
-        CFRelease(loginItem);
-    }
 }
 
 - (IBAction) setUnsetAutoStart:(id)sender
 {
-    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-    BOOL isAutoStart = [settings boolForKey:@"StartAtLaunch"];
-    isAutoStart ^= 1;
-    [self.autoStartButton setState:isAutoStart ? NSControlStateValueOn : NSControlStateValueOff];
-    [settings setBool:isAutoStart forKey:@"StartAtLaunch"];
 }
 
 - (IBAction) selectLog:(id)sender
 {
     NSSavePanel *savePanel = [NSSavePanel savePanel];
+    savePanel.showsHiddenFiles = true;
     [savePanel setAllowedFileTypes:@[@"txt", @"log"]];
 
     NSString *logPath = self.logFile.stringValue;
@@ -179,25 +196,28 @@
 
 - (IBAction) setUnsetDontCheckSubfolders:(id)sender
 {
-    NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-    BOOL dontCheckSubfolders = [settings boolForKey:@"DontCheckSubfolders"];
-    dontCheckSubfolders ^= 1;
-    [self.dontCheckSubfoldersButton setState:dontCheckSubfolders ? NSControlStateValueOn : NSControlStateValueOff];
-    [settings setBool:dontCheckSubfolders forKey:@"DontCheckSubfolders"];
 }
 
 - (IBAction) addFolder:(id)sender
 {
-    printf("addFolder...\n");
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.showsHiddenFiles = true;
+    openPanel.allowsMultipleSelection = false;
+    openPanel.canChooseDirectories = true;
+    openPanel.canChooseFiles = false;
 
-    [self.folders addObject:@"AAAAAAAAAAAAAAAAAAAAAAA"];
+    if ([openPanel runModal] == NSModalResponseOK)
+    {
+        [self.folders addObject:[[openPanel URL] path]];
 
-    [self.tableView beginUpdates];
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.folders count] - 1];
-    [self.tableView insertRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectNone];
-    [self.tableView endUpdates];
+        [self.tableView beginUpdates];
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.folders count] - 1];
+        [self.tableView insertRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectNone];
+        [self.tableView endUpdates];
 
-    [self.tableView selectRowIndexes:indexSet byExtendingSelection:NO];
+        [self.tableView selectRowIndexes:indexSet byExtendingSelection:NO];
+        [self tableViewSelected:nil];
+    }
 }
 
 - (IBAction) removeFolder:(id)sender
@@ -208,12 +228,13 @@
         [self.tableView removeRowsAtIndexes:indexSet withAnimation:NSTableViewAnimationEffectNone];
 
         [self.folders removeObjectAtIndex:[indexSet firstIndex]];
-
-        if (self.tableView.selectedRow < 0)
-        {
-            [self.removeFolderButton setEnabled:NO];
-        }
+        [self tableViewSelected:nil];
     }
+}
+
+- (IBAction) cancel:(id)sender;
+{
+    [self.window orderOut:nil];
 }
 
 - (IBAction) confirm:(id)sender
@@ -227,16 +248,32 @@
         [settings setObject:self.logFile.stringValue forKey:@"LogPath"];
         [settings setObject:self.folders forKey:@"Folders"];
 
+        if ([self.loginItemButton state] && [self checkLoginItem] == NO)
+        {
+            if ([self addLoginItem] == NO)
+            {
+                if (showAlert(@"Logger not added to login items list.", NSAlertStyleWarning, @[@"Cancel", @"Continue"]) == 1000)
+                {
+                    return;
+                }
+            }
+        }
+        else if ([self.loginItemButton state] == NO && [self checkLoginItem])
+        {
+            if([self removeLoginItem] == NO)
+            {
+                if (showAlert(@"Logger not removed from login items list.", NSAlertStyleWarning, @[@"Cancel", @"Continue"]) == 1000)
+                {
+                    return;
+                }
+            }
+        }
+
         [self.window orderOut:nil];
     }
 }
 
-- (IBAction) cancel:(id)sender;
-{
-    [self.window orderOut:nil];
-}
-
-- (IBAction) tableViewClicked:(id)sender
+- (IBAction) tableViewSelected:(id)sender
 {
     if (self.tableView.selectedRow >= 0)
     {

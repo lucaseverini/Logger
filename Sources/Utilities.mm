@@ -71,5 +71,7 @@ NSModalResponse showAlert(NSString *message, NSAlertStyle style, NSArray *button
         }
     }
 
-    return [alert runModal];
+    int response = [alert runModal];
+    printf("Alert: %d\n", response);
+    return response;
 }

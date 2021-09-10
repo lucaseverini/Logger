@@ -29,8 +29,6 @@
 - (IBAction) removeFolder:(id)sender;
 - (IBAction) confirm:(id)sender;
 - (IBAction) cancel:(id)sender;
-- (IBAction) tableViewClicked:(id)sender;
-
-- (BOOL) checkPreferences;
+- (IBAction) tableViewSelected:(id)sender;
 
 @end
