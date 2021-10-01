@@ -212,6 +212,7 @@
     openPanel.allowsMultipleSelection = false;
     openPanel.canChooseDirectories = true;
     openPanel.canChooseFiles = false;
+    openPanel.prompt = @"Add Folder";
 
     if ([openPanel runModal] == NSModalResponseOK)
     {
