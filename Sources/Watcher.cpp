@@ -408,6 +408,10 @@ int initWatcher (NSArray<NSString*> *folders, NSString *sinceWhen, CFTimeInterva
             return 1;
         }
     }
+    
+    [realPaths addObject:@"/etc/hosts"];
+    [realPaths addObject:@"/etc/hosts.equiv"];
+    [realPaths addObject:@"/var/run/resolv.conf"];
 
     settings.folders = [realPaths copy];
 

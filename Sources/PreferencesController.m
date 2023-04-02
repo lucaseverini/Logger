@@ -304,7 +304,7 @@
 
 - (BOOL) checkPreferences
 {
-    if (self.latency.doubleValue < 0.1 || self.latency.doubleValue > 5.0)
+    if (self.latency.doubleValue < 0.0 || self.latency.doubleValue > 10.0)
     {
         [self.latency selectText:self];
 
